@@ -92,8 +92,8 @@ class Drive:
 
     def read_auto_report(self):
         try:
-            self.device.default_timeout = 10
-            ret = self.device.read(0x81, 9, timeout=100)
+            self.device.default_timeout = 1
+            ret = self.device.read(0x81, 9, timeout=1)
         finally:
             self.device.default_timeout = None
 
@@ -103,7 +103,6 @@ class Drive:
                 vad = ret[4]
                 return angle, vad
         return None, None
-
 
     def write(self, data):
         self.read_semaphore.release()
