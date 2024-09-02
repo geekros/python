@@ -84,7 +84,26 @@ class Drive:
         while not self.device_closed:
             self.read_semaphore.acquire()
             if not self.device_closed:
+                angle_vad = self.read_auto_report()
+                if angle_vad:
+                    angle, vad = angle_vad
+                    Utils().log.info(f"Detected angle: {angle}, VAD: {vad}")
                 self.read_data.append(self.device_in.read(self.device_in.wMaxPacketSize, -1))
+
+    def read_auto_report(self):
+        try:
+            self.device.default_timeout = 10
+            ret = self.device.read(0x81, 9, timeout=100)
+        finally:
+            self.device.default_timeout = None
+
+        if ret:
+            if ret[0] == 0xFF:
+                angle = ret[6] * 256 + ret[5]
+                vad = ret[4]
+                return angle, vad
+        return None, None
+
 
     def write(self, data):
         self.read_semaphore.release()
@@ -93,22 +112,6 @@ class Drive:
             return
         self.device_out.write(data)
         return
-
-    def read_angle(self):
-        if self.device:
-            try:
-                self.device.default_timeout = 1
-                ret = self.device.read(0x81, 9, timeout=100)
-                self.device.default_timeout = 0
-            finally:
-                self.device.default_timeout = 0
-
-            if ret:
-                if ret[0] == 0xFF:
-                    angle = ret[6] * 256 + ret[5]
-                    vad = ret[4]
-                    return angle, vad
-        return None, None
 
     def read(self):
         while len(self.read_data) == 0:
