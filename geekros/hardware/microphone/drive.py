@@ -94,6 +94,20 @@ class Drive:
         self.device_out.write(data)
         return
 
+    def read_angle(self):
+        try:
+            self.device.default_timeout = 10
+            ret = self.device.read(0x81, 9, timeout=100)
+        finally:
+            self.device.default_timeout = None
+
+        if ret:
+            if ret[0] == 0xFF:
+                angle = ret[6] * 256 + ret[5]
+                vad = ret[4]
+                return angle, vad
+        return None, None
+
     def read(self):
         while len(self.read_data) == 0:
             pass

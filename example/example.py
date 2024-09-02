@@ -15,6 +15,8 @@ def on_start(sdk):
         sdk.hardware.microphone.listening()
     while not sdk.quit_event.is_set():
         if sdk.Package.detection.recorder and len(sdk.Package.keyword.list) > 0:
+            if sdk.hardware.microphone.drive:
+                print(sdk.hardware.microphone.drive.read_angle())
             pcm = sdk.Package.detection.recorder.read()
             result = sdk.Package.detection.porcupine.process(pcm)
             if result >= 0:
