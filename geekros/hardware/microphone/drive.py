@@ -97,8 +97,9 @@ class Drive:
     def read_angle(self):
         if self.device:
             try:
-                self.device.default_timeout = 100
+                self.device.default_timeout = 1
                 ret = self.device.read(0x81, 9, timeout=100)
+                self.device.default_timeout = 0
             finally:
                 self.device.default_timeout = 0
 
