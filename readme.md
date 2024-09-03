@@ -1,6 +1,6 @@
 # Python
 
-⚡ Python SDK For GEEKROS ⚡
+⚡ Python SDK For Real-Time Robot-Human Interaction Applications ⚡
 
 ## License
 
