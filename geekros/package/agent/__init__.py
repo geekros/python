@@ -12,13 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .agent import Agent
-from .detection import Detection
-from .keyword import Keyword
-
-class Package:
+class Agent:
 
     def __init__(self):
-        self.agent = Agent()
-        self.detection = Detection()
-        self.keyword = Keyword()
+        pass
