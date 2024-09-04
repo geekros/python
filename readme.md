@@ -23,7 +23,7 @@ Python          3.10.12
 
 ```shell
 # Dependencies that need to be installed manually.
-pip install chromadb colcon-common-extensions colorlog empy hidapi logging numpy==1.26.4 openai pvporcupine==3.0.3 pvrecorder==1.2.2 pyaudio pymongo pyserial pyusb requests respeaker soundfile tornado wave websocket-client==0.48.0 webrtcvad
+pip install chromadb colcon-common-extensions colorlog empy hidapi logging numpy==1.26.4 openai pvporcupine==3.0.3 pvrecorder==1.2.2 pyaudio pymongo pyserial pyusb requests soundfile tornado wave websocket-client==0.48.0 webrtcvad
 ```
 
 ```shell
