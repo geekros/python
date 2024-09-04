@@ -66,7 +66,7 @@ class Detection:
     def start_recorder(self, device_index=-1):
         if self.porcupine:
             self.recorder = PvRecorder(
-                frame_length=self.porcupine.frame_length,
+                frame_length=6,
                 device_index=device_index
             )
             self.recorder.start()
