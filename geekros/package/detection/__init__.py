@@ -84,16 +84,6 @@ class Detection:
             )
             self.stream.start_stream()
 
-    def read_stream(self):
-        frame = []
-        if self.stream:
-            data = self.stream.read(1024, exception_on_overflow=False)
-            channel_0_data = np.fromstring(data, dtype=np.int16)[0::6]
-            num_frames = len(channel_0_data)
-            for i in range(num_frames):
-                frame = channel_0_data[i * self.porcupine.frame_length:(i + 1) * self.porcupine.frame_length]
-        return frame
-
     def stop(self):
         if self.porcupine:
             self.porcupine.delete()
