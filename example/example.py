@@ -14,7 +14,7 @@ def on_start(sdk):
         sdk.Package.detection.start_stream(9)
         sdk.hardware.microphone.drive.control_listen()
     while not sdk.quit_event.is_set():
-        if sdk.Package.detection.recorder and len(sdk.Package.keyword.list) > 0:
+        if sdk.Package.detection.stream and len(sdk.Package.keyword.list) > 0:
             pcm = sdk.Package.detection.stream.read()
             result = sdk.Package.detection.porcupine.process(pcm)
             print(result)
