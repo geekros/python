@@ -19,7 +19,7 @@ from ...utils import Utils
 
 class Drive:
 
-    TIMEOUT = 8000
+    TIMEOUT = 100000
 
     def __init__(self):
         self.device = None
