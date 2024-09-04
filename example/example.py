@@ -23,7 +23,7 @@ def on_start(sdk):
                 sdk.hardware.microphone.drive.control_speak()
                 (name, path) = sdk.Package.keyword.get_by_index(result)
                 sdk.utils.log.success("Detected:%s direction:%d" % (name, direction))
-                time.sleep(1)
+                time.sleep(2)
                 sdk.hardware.microphone.drive.control_listen()
 
 if __name__ == "__main__":
