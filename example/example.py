@@ -20,7 +20,7 @@ def on_start(sdk):
             result = sdk.Package.detection.porcupine.process(pcm)
             if result >= 0:
                 direction = sdk.hardware.microphone.drive.direction()
-                sdk.hardware.microphone.drive.control_spin()
+                sdk.hardware.microphone.drive.control_speak()
                 (name, path) = sdk.Package.keyword.get_by_index(result)
                 sdk.utils.log.success("Detected:%s direction:%d" % (name, direction))
                 time.sleep(1)
