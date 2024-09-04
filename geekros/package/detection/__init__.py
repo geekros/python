@@ -25,8 +25,6 @@ class Detection:
         self.access_key = []
         self.porcupine = None
         self.recorder = None
-        self.stream = None
-        self.stream_buffer = None
 
     def random_access_key(self):
         access_key = [
@@ -72,35 +70,8 @@ class Detection:
             )
             self.recorder.start()
 
-    def start_stream(self, device_index=0):
-        if self.porcupine:
-            self.stream_buffer = np.zeros(self.porcupine.frame_length, dtype=np.int16)
-            self.stream = self.pyaudio.open(
-                input=True,
-                start=False,
-                format=self.pyaudio.get_format_from_width(2),
-                channels=6,
-                rate=16000,
-                frames_per_buffer=1024,
-                input_device_index=device_index
-            )
-            self.stream.start_stream()
-
-    def read_stream(self):
-        frame = None
-        if self.stream:
-            data = self.stream.read(1024, exception_on_overflow=False)
-            channel_0_data = np.frombuffer(data, dtype=np.int16)[0::6]
-            self.stream_buffer = np.concatenate((self.stream_buffer, channel_0_data))
-            while len(self.stream_buffer) >= self.porcupine.frame_length:
-                frame = self.stream_buffer[:self.porcupine.frame_length]
-                self.stream_buffer = self.stream_buffer[self.porcupine.frame_length:]
-        return frame
-
     def stop(self):
         if self.porcupine:
             self.porcupine.delete()
         if self.recorder:
             self.recorder.delete()
-        if self.stream:
-            self.stream.stop_stream()
