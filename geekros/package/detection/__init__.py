@@ -79,7 +79,7 @@ class Detection:
                 format=self.pyaudio.get_format_from_width(2),
                 channels=6,
                 rate=16000,
-                frames_per_buffer=1024,
+                frames_per_buffer=512,
                 input_device_index=device_index
             )
             self.stream.start_stream()
@@ -87,7 +87,7 @@ class Detection:
     def read_stream(self):
         frame = []
         if self.stream:
-            data = self.stream.read(1024, exception_on_overflow=False)
+            data = self.stream.read(512, exception_on_overflow=False)
             channel_0_data = np.fromstring(data, dtype=np.int16)[0::6]
             num_frames = len(channel_0_data)
             for i in range(num_frames):
