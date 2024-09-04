@@ -17,6 +17,7 @@ def on_start(sdk):
         if sdk.Package.detection.recorder and len(sdk.Package.keyword.list) > 0:
             pcm = sdk.Package.detection.read_stream()
             result = sdk.Package.detection.porcupine.process(pcm)
+            print(result)
             if result >= 0:
                 (name, path) = sdk.Package.keyword.get_by_index(result)
                 sdk.utils.log.success("Detected %s %s" % (name, path))
