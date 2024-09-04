@@ -3,6 +3,7 @@
 
 import os
 import sys
+import time
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from geekros import Framework
 
@@ -15,11 +16,15 @@ def on_start(sdk):
         sdk.hardware.microphone.drive.control_listen()
     while not sdk.quit_event.is_set():
         if sdk.Package.detection.recorder and len(sdk.Package.keyword.list) > 0:
-            pcm = sdk.Package.detection.recorder.read()
-            result = sdk.Package.detection.porcupine.process(pcm)
-            if result >= 0:
-                (name, path) = sdk.Package.keyword.get_by_index(result)
-                sdk.utils.log.success("Detected:%s direction:%d" % (name, sdk.hardware.microphone.drive.direction()))
+            if sdk.hardware.microphone.drive.is_voice():
+                pcm = sdk.Package.detection.recorder.read()
+                result = sdk.Package.detection.porcupine.process(pcm)
+                if result >= 0:
+                    sdk.hardware.microphone.drive.control_think()
+                    (name, path) = sdk.Package.keyword.get_by_index(result)
+                    sdk.utils.log.success("Detected:%s direction:%d" % (name, sdk.hardware.microphone.drive.direction()))
+                    time.sleep(0.5)
+                    sdk.hardware.microphone.drive.control_listen()
 
 if __name__ == "__main__":
     framework = Framework()
