@@ -63,6 +63,12 @@ class Drive:
     def control_listen(self, direction=None):
         self.control(2)
 
+    def control_wakeup(self, direction=0):
+        position = int((direction + 15) / (360 / 12)) % 12
+        pixels = [0, 0, 0, 24 * 8] * 12
+        pixels[position * 4 + 2] = 24 * 8
+        self.control_show(pixels)
+
     def control_trace(self):
         self.control(0)
 
