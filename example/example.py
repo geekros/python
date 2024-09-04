@@ -15,7 +15,7 @@ def on_start(sdk):
         sdk.hardware.microphone.drive.control_listen()
     while not sdk.quit_event.is_set():
         if sdk.Package.detection.recorder and len(sdk.Package.keyword.list) > 0:
-            print("Dir", sdk.hardware.microphone.drive.direction)
+            print("Dir", sdk.hardware.microphone.drive.direction())
             pcm = sdk.Package.detection.recorder.read()
             result = sdk.Package.detection.porcupine.process(pcm)
             if result >= 0:

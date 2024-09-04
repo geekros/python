@@ -115,7 +115,6 @@ class Drive:
     def is_voice(self):
         return self.read(self.id19_offset32())
 
-    @property
     def direction(self):
         return self.read(self.id20_offset0())
 
