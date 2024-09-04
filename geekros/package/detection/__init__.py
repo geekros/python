@@ -15,6 +15,7 @@
 import random
 import pyaudio
 import pvporcupine
+import numpy as np
 from pvrecorder import PvRecorder
 
 class Detection:
@@ -24,6 +25,7 @@ class Detection:
         self.access_key = []
         self.porcupine = None
         self.recorder = None
+        self.stream = None
 
     def random_access_key(self):
         access_key = [
@@ -45,8 +47,6 @@ class Detection:
 
     def create_porcupine(self, keyword=None, language="en"):
         if keyword:
-            for i, device in enumerate(PvRecorder.get_available_devices()):
-                print('Device %d: %s' % (i, device))
             keyword_paths = []
             sensitivities = []
             language_model = None
@@ -66,13 +66,38 @@ class Detection:
     def start_recorder(self, device_index=-1):
         if self.porcupine:
             self.recorder = PvRecorder(
-                frame_length=512,
+                frame_length=self.porcupine.frame_length,
                 device_index=device_index
             )
             self.recorder.start()
+
+    def start_stream(self, device_index=0):
+        if self.porcupine:
+            self.stream = self.pyaudio.open(
+                input=True,
+                start=False,
+                format=pyaudio.paInt16,
+                channels=6,
+                rate=16000,
+                frames_per_buffer=1024,
+                input_device_index=device_index
+            )
+            self.stream.start_stream()
+
+    def read_stream(self):
+        frame = None
+        if self.stream:
+            data = self.stream.read(1024, exception_on_overflow=False)
+            channel_0_data = np.fromstring(data, dtype=np.int16)[0::6]
+            num_frames = len(channel_0_data)
+            for i in range(num_frames):
+                frame = channel_0_data[i * self.porcupine.frame_length:(i + 1) * self.porcupine.frame_length]
+        return frame
 
     def stop(self):
         if self.porcupine:
             self.porcupine.delete()
         if self.recorder:
             self.recorder.delete()
+        if self.stream:
+            self.stream.stop_stream()
