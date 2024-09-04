@@ -76,7 +76,7 @@ class Detection:
             self.stream = self.pyaudio.open(
                 input=True,
                 start=False,
-                format=pyaudio.paInt16,
+                format=self.pyaudio.get_format_from_width(2),
                 channels=6,
                 rate=16000,
                 frames_per_buffer=1024,
