@@ -23,4 +23,4 @@ class Microphone:
 
     def close(self):
         if self.device:
-            self.device.close()
+            self.drive.close()

@@ -123,6 +123,7 @@ class Drive:
 
     def close(self):
         if self.device:
+            self.control_off()
             usb.util.dispose_resources(self.device)
 
     def id18_offset7(self):
