@@ -20,9 +20,9 @@ def on_start(sdk):
                 pcm = sdk.Package.detection.recorder.read()
                 result = sdk.Package.detection.porcupine.process(pcm)
                 if result >= 0:
-                    sdk.hardware.microphone.drive.control_think()
                     (name, path) = sdk.Package.keyword.get_by_index(result)
                     sdk.utils.log.success("Detected:%s direction:%d" % (name, sdk.hardware.microphone.drive.direction()))
+                    sdk.hardware.microphone.drive.control_think()
                     time.sleep(0.5)
                     sdk.hardware.microphone.drive.control_listen()
 
