@@ -85,7 +85,7 @@ class Detection:
             self.stream.start_stream()
 
     def read_stream(self):
-        frame = None
+        frame = []
         if self.stream:
             data = self.stream.read(1024, exception_on_overflow=False)
             channel_0_data = np.fromstring(data, dtype=np.int16)[0::6]
