@@ -19,7 +19,7 @@ from ...utils import Utils
 
 class Drive:
 
-    TIMEOUT = 100000
+    TIMEOUT = 8000
 
     def __init__(self):
         self.device = None
@@ -41,7 +41,7 @@ class Drive:
                 cmd |= 0x40
             length = 8
             response = self.device.ctrl_transfer(usb.util.CTRL_IN | usb.util.CTRL_TYPE_VENDOR | usb.util.CTRL_RECIPIENT_DEVICE, 0, cmd, parameter_id, length, self.TIMEOUT)
-            response = struct.unpack(b'ii', response.tostring())
+            response = struct.unpack(b'ii', response.tobytes())
             if parameter[2] == 'int':
                 result = response[0]
             else:
