@@ -12,7 +12,7 @@ def on_start(sdk):
         sdk.Package.keyword.on_init()
         sdk.Package.detection.create_porcupine(sdk.Package.keyword.list, sdk.Package.keyword.language)
         sdk.Package.detection.start_recorder(-1)
-        sdk.hardware.microphone.drive.control_think()
+        sdk.hardware.microphone.drive.control_speak()
     while not sdk.quit_event.is_set():
         if sdk.Package.detection.recorder and len(sdk.Package.keyword.list) > 0:
             pcm = sdk.Package.detection.recorder.read()
