@@ -30,7 +30,7 @@ class Drive:
         if not self.device:
             Utils().log.warning("No device found")
             self.device = None
-        Utils().log.debug("Found a device", self.device)
+        Utils().log.debug("Found a device")
         return self.device
 
     def read(self, parameter):

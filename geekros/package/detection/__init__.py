@@ -45,6 +45,8 @@ class Detection:
 
     def create_porcupine(self, keyword=None, language="en"):
         if keyword:
+            for i, device in enumerate(PvRecorder.get_available_devices()):
+                print('Device %d: %s' % (i, device))
             keyword_paths = []
             sensitivities = []
             language_model = None
