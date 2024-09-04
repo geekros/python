@@ -19,7 +19,7 @@ def on_start(sdk):
             result = sdk.Package.detection.porcupine.process(pcm)
             if result >= 0:
                 (name, path) = sdk.Package.keyword.get_by_index(result)
-                sdk.utils.log.success("Detected %s %s" % (name, path))
+                sdk.utils.log.success("Detected %s %s %d" % (name, path, sdk.hardware.microphone.drive.direction()))
 
 if __name__ == "__main__":
     framework = Framework()
